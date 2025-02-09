@@ -9,7 +9,7 @@ public:
             count += mp[diff];
             mp[diff]++;
         }
-        long long total = (1LL * (n) * (n - 1)) / 2;
-        return total - count;
+        // long long total = (1LL * (n) * (n - 1)) / 2;
+        return (1LL * (n) * (n - 1)) / 2 - count;
     }
 };
