@@ -11,7 +11,7 @@ public:
     int maximumSum(vector<int>& nums) {
         int maxi = -1;
         int n = nums.size();
-        unordered_map<int,int> digitSumMap;
+        unordered_map<int, int> digitSumMap;
         for (int num : nums) {
             int dsum = digitsum(num);
             if (digitSumMap.count(dsum)) {
