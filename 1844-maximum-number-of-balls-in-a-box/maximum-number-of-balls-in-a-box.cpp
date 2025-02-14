@@ -9,11 +9,10 @@ public:
         return result;
     }
     int countBalls(int lowLimit, int highLimit) {
-        int n = highLimit - lowLimit + 1;
         int mp[50] = {0};
-        int maxi = -1, box = 0;
+        int maxi = -1;
         for (int i = lowLimit; i <= highLimit; i++) {
-            box = digitsum(i);
+            int box = digitsum(i);
             mp[box]++;
             maxi = max(maxi, mp[box]);
         }
