@@ -1,17 +1,22 @@
 class ProductOfNumbers {
 public:
-    vector<int> stream;
-    ProductOfNumbers() {}
+    vector<int> prefixProduct;
+    ProductOfNumbers() { prefixProduct.push_back(1); }
 
-    void add(int num) { stream.push_back(num); }
+    void add(int num) {
+        if (num == 0) {
+            prefixProduct.clear();
+            prefixProduct.push_back(1); // Reset due to zero
+        } else {
+            prefixProduct.push_back(prefixProduct.back() * num);
+        }
+    }
 
     int getProduct(int k) {
-        int n = stream.size();
-        int product = 1;
-        for (int i = n - 1; i >= n - k; i--) {
-            product *= stream[i];
-        }
-        return product;
+        int n = prefixProduct.size();
+        if (k >= n)
+            return 0; // If k exceeds stored products, a zero must be present.
+        return prefixProduct[n - 1] / prefixProduct[n - 1 - k];
     }
 };
 
