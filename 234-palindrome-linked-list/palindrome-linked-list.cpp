@@ -46,7 +46,8 @@ public:
                 return false;
             }
         }
-        middle->next = reverse(temp);
+        // ListNode* temp = middle->next;
+        // middle->next = reverse(temp);
         return true;
     }
 };
