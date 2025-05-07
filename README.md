@@ -1,2 +1,2 @@
 # Questions-Solved
-here i will post the questions i solve on leetcode
+here i will post the questions i solve on leetcode or GFG
