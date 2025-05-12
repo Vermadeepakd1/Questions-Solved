@@ -1,36 +1,29 @@
 class Solution {
 public:
     string reverseWords(string s) {
-        vector<string> result;
+        vector<string> words;
         string temp = "";
-
-        for (char ch : s) {
-            if (ch == ' ') {
-                if (!temp.empty()) { 
-                    result.push_back(temp);
+        for(char c: s){
+            if(c == ' '){
+                if(!temp.empty()){
+                    words.push_back(temp);
                     temp = "";
                 }
-            } else {
-                temp += ch;
+            } else{
+                temp += c;
             }
         }
-        
-        if (!temp.empty()) {
-            result.push_back(temp);
+        if(!temp.empty()){
+            words.push_back(temp);
+            temp = "";
         }
 
-        // Reverse the words
-        reverse(result.begin(), result.end());
-
-        // Construct the final string
-        string final = "";
-        for (int i = 0; i < result.size(); i++) {
-            final += result[i];
-            if (i != result.size() - 1) { // Avoid extra space at the end
-                final += " ";
+        for(int i = 0; i < words.size(); i++){
+            if(i!=0){
+                temp += " ";
             }
+            temp += words[words.size() - i -1];
         }
-
-        return final;
+        return temp;
     }
 };
