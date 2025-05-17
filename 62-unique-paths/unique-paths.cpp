@@ -8,6 +8,6 @@ public:
         for(int i = 1; i<= r; i++){
             res = res * (N-r+i)/i;
         }
-        return (int)res;
+        return static_cast<int>(res);
     }
 };
