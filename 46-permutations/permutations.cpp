@@ -1,5 +1,5 @@
 class Solution {
-    void findPermute(vector<int> nums, vector<vector<int>>& result, int idx) {
+    void findPermute(vector<int> &nums, vector<vector<int>>& result, int idx) {
         if (idx == nums.size()) {
             result.push_back(nums);
             return;
