@@ -1,30 +1,24 @@
 class Solution {
-    void findPermute(int n, vector<vector<int>>& result, vector<int>& temp,
-                     unordered_map<int, bool>& visited, vector<int>& nums) {
-        if (temp.size() == n) {
-            result.push_back(temp);
+    void findPermute(vector<int> nums, vector<vector<int>>& result, int idx) {
+        if (idx == nums.size()) {
+            result.push_back(nums);
             return;
         }
-
-        for (int i = 0; i < n; i++) {
-            if (!visited[i]) {
-                temp.push_back(nums[i]);
-                visited[i] = true;
-                findPermute(n, result, temp, visited, nums);
-                visited[i] = false;
-                temp.pop_back();
-            }
+        for(int i = idx; i< nums.size(); i++){
+            swap(nums[idx],nums[i]);
+            findPermute(nums,result,idx+1);
+            swap(nums[idx],nums[i]);
         }
+        
     }
 
 public:
     vector<vector<int>> permute(vector<int>& nums) {
-        unordered_map<int, bool> visited;
         int n = nums.size();
         vector<vector<int>> result;
-        vector<int> temp;
+        int idx= 0;
 
-        findPermute(n, result, temp, visited, nums);
+        findPermute(nums, result, idx);
 
         return result;
     }
