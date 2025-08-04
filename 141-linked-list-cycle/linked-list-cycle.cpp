@@ -8,16 +8,16 @@
  */
 class Solution {
 public:
-    bool hasCycle(ListNode *head) {
-        unordered_map<ListNode *,bool> mp;
-        ListNode *temp = head;
-        while(temp != NULL && mp[temp] != true){
-            mp[temp] = true;
-            temp = temp -> next;
+    bool hasCycle(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head;
+
+        while (fast != nullptr && fast->next != nullptr) {
+            slow = slow->next;
+            fast = fast->next->next;
+
+            if (slow == fast) return true;
         }
-        if(temp == NULL){
-            return false;
-        }
-        return true;
+        return false;
     }
 };
