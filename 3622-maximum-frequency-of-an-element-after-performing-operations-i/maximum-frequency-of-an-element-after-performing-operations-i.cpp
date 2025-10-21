@@ -13,6 +13,7 @@ public:
         }
         int ans = -1;
         for(int i = 0; i<=maxi; i++){
+            // if(freq[i] == 0)continue;
             int l = max(i -k,0);
             int r = min(maxi,i+k);
 
