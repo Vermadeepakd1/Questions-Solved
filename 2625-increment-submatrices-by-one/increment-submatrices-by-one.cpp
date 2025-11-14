@@ -6,9 +6,14 @@ public:
 
             int r1=q[0],c1=q[1],r2=q[2],c2=q[3];
             for(int i = r1; i<=r2; i++){
-                for(int j = c1; j <=c2; j++){
-                    a[i][j]++;
-                }
+                a[i][c1] += 1;
+                if(c2+1 < n)
+                a[i][c2+1] -= 1;
+            }
+        }
+        for(int i = 0; i<n; i++){
+            for(int j = 1; j<n; j++){
+                a[i][j] += a[i][j-1];
             }
         }
         return a;
