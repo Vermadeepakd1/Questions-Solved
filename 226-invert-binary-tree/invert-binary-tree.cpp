@@ -6,23 +6,20 @@
  *     TreeNode *right;
  *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
  *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
- *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left),
+ * right(right) {}
  * };
  */
 class Solution {
 public:
     TreeNode* invertTree(TreeNode* root) {
-        if (root == nullptr) return nullptr;
-
-        TreeNode *left = root -> left;
-        TreeNode *right = root -> right;
-
-        root->left = right;
-        root-> right = left;
-
-        if(root->left != NULL) invertTree(root->left);
-        if(root->right != NULL) invertTree(root->right);
-
+        if (root == NULL || (root->right == NULL && root->left == NULL))
+            return root;
+        if (root->left)
+            root->left = invertTree(root->left);
+        if (root->right)
+            root->right = invertTree(root->right);
+        swap(root->left, root->right);
         return root;
     }
 };
