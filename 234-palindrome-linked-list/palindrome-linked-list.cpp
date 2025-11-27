@@ -9,45 +9,34 @@
  * };
  */
 class Solution {
-public:
-    ListNode* reverse(ListNode* head) {
-        ListNode *curr = head, *prev = NULL, *next = NULL;
-        while (curr != NULL) {
-            next = curr->next;
+    ListNode* reverseList(ListNode* head) {
+        ListNode *nextnode = NULL, *prev = NULL, *curr = head;
+        while(curr != NULL){
+            nextnode = curr->next;
             curr->next = prev;
             prev = curr;
-            curr = next;
+            curr = nextnode;
         }
         return prev;
     }
-
-    ListNode* findMid(ListNode* head) {
-        ListNode *slow = head, *fast = head->next;
-        while (fast != NULL && fast->next != NULL) {
-            slow = slow->next;
-            fast = fast->next->next;
-        }
-        return slow;
-    }
+public:
     bool isPalindrome(ListNode* head) {
-        if (head == NULL || head->next == NULL) {
-            return true;
+        ListNode *slow =head, *fast = head;
+        while(fast != NULL && fast->next != NULL){
+            fast = fast->next;
+            fast = fast->next;
+            slow = slow->next;
         }
-        ListNode* middle = findMid(head);
-        ListNode* temp = middle->next;
-        middle->next = reverse(temp);
 
-        ListNode *head1 = head, *head2 = middle->next;
-        while (head2 != NULL) {
-            if (head1->val == head2->val) {
-                head1 = head1->next;
-                head2 = head2->next;
-            } else {
-                return false;
-            }
+        ListNode *temp2 = reverseList(slow), *temp1 = head;
+
+        while(temp1 != NULL && temp2 != NULL){
+            if(temp1->val != temp2->val)return false;
+            temp1 = temp1->next;
+            temp2 = temp2->next;
         }
-        // ListNode* temp = middle->next;
-        // middle->next = reverse(temp);
+        
+
         return true;
     }
 };
