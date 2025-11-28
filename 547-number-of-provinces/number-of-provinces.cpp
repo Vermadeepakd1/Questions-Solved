@@ -1,10 +1,10 @@
 class Solution {
-    void dfs(unordered_map<int,vector<int>> &adj, vector<int> &visited, int node, int parent){
+    void dfs(unordered_map<int,vector<int>> &adj, vector<int> &visited, int node){
         visited[node] = true;
 
         for(int nbr : adj[node]){
-            if(!visited[nbr] && nbr != parent){
-                dfs(adj,visited,nbr,node);
+            if(!visited[nbr] ){
+                dfs(adj,visited,nbr);
             }
         }
     }
@@ -26,7 +26,7 @@ public:
 
         for(int i = 1; i<=n; i++){
             if(!visited[i]){
-                dfs(adj,visited, i,-1);
+                dfs(adj,visited, i);
                 cnt++;
             }
         }
