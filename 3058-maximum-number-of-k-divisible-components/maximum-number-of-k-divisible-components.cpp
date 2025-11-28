@@ -1,7 +1,7 @@
 class Solution {
     int count = 0;
 
-    long long dfs(unordered_map<int, vector<int>>& adj, int node, int parent,
+    long long dfs(vector<vector<int>>& adj, int node, int parent,
             vector<int>& values, int k) {
         long long sum = values[node];
         for (int nbr : adj[node]) {
@@ -19,8 +19,8 @@ public:
     int maxKDivisibleComponents(int n, vector<vector<int>>& edges,
                                 vector<int>& values, int k) {
 
-        unordered_map<int, vector<int>> adj;
-
+        vector<vector<int>> adj(n);
+        
         for (auto i : edges) {
             int u = i[0];
             int v = i[1];
