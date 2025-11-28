@@ -10,43 +10,30 @@
  */
 class Solution {
 public:
-    void solve(ListNode* list1, ListNode* list2){
-        ListNode *prev = list1;
-        ListNode *curr = list1->next;
-        while(curr!= NULL && list2 != NULL){
-            int preVal = prev->val;
-            int currVal = curr->val;
-            int check = list2->val;
-            if(check >= preVal && check <= currVal){
-                ListNode *temp = list2->next;
-                prev->next = list2;
-                list2->next = curr;
-                prev = list2;
-                list2 = temp;
-            }else{
-                prev = curr;
-                curr = curr -> next;
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* dummy = new ListNode(-1);
+        ListNode* temp = dummy;
+        while (list1 != NULL && list2 != NULL) {
+            if (list1->val < list2->val) {
+                temp->next = list1;
+                list1 = list1->next;
+                temp = temp->next;
+            } else {
+                temp->next = list2;
+                list2 = list2->next;
+                temp = temp->next;
             }
         }
-        if(curr == NULL){
-            prev->next = list2;
+        while (list1 != NULL) {
+            temp->next = list1;
+            list1 = list1->next;
+            temp = temp->next;
         }
-    }
-
-    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        if(list1 == NULL){
-            return list2;
+        while (list2 != NULL) {
+            temp->next = list2;
+            list2 = list2->next;
+            temp = temp->next;
         }
-        if(list2 == NULL){
-            return list1;
-        }
-        if(list1->val < list2 -> val){
-            solve(list1,list2);
-            return list1;
-        }
-        else{
-            solve(list2,list1);
-            return list2;
-        }
+        return dummy->next;
     }
 };
