@@ -1,5 +1,5 @@
 class Solution {
-    void findsubset(vector<vector<int>> &result, vector<int> temp, vector<int> &nums, int idx){
+    void findsubset(vector<vector<int>> &result, vector<int> &temp, vector<int> &nums, int idx){
         if(idx == nums.size()){
             result.push_back(temp);
             return;
