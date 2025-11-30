@@ -1,33 +1,22 @@
 class Solution {
-    bool solve(vector<vector<char>>& board, string& word, vector<vector<bool>>& visited, int idx, int row, int col, int l, int m) {
-        if (idx == word.length()) return true;
+    vector<int> hd = {-1, 0, 1, 0};
+    vector<int> vd = {0, -1, 0, 1};
+    bool solve(vector<vector<char>>& board, string& word, int idx, int row,
+               int col, int l, int m) {
+        if (idx == word.length())
+            return true;
 
-        // up
-        if (row - 1 >= 0 && !visited[row - 1][col] && board[row - 1][col] == word[idx]) {
-            visited[row - 1][col] = true;
-            if (solve(board, word, visited, idx + 1, row - 1, col, l, m)) return true;
-            visited[row - 1][col] = false;
-        }
+        for (int i = 0; i < 4; i++) {
+            int nrow = row + hd[i];
+            int ncol = col + vd[i];
 
-        // down
-        if (row + 1 < l && !visited[row + 1][col] && board[row + 1][col] == word[idx]) {
-            visited[row + 1][col] = true;
-            if (solve(board, word, visited, idx + 1, row + 1, col, l, m)) return true;
-            visited[row + 1][col] = false;
-        }
-
-        // right
-        if (col + 1 < m && !visited[row][col + 1] && board[row][col + 1] == word[idx]) {
-            visited[row][col + 1] = true;
-            if (solve(board, word, visited, idx + 1, row, col + 1, l, m)) return true;
-            visited[row][col + 1] = false;
-        }
-
-        // left
-        if (col - 1 >= 0 && !visited[row][col - 1] && board[row][col - 1] == word[idx]) {
-            visited[row][col - 1] = true;
-            if (solve(board, word, visited, idx + 1, row, col - 1, l, m)) return true;
-            visited[row][col - 1] = false;
+            if (nrow >= 0 && ncol >= 0 && ncol < m && nrow < l &&
+                board[nrow][ncol] == word[idx]) {
+                board[nrow][ncol] = '#';
+                if (solve(board, word, idx + 1, nrow, ncol, l, m))
+                    return true;
+                board[nrow][ncol] = word[idx];
+            }
         }
 
         return false;
@@ -36,14 +25,14 @@ class Solution {
 public:
     bool exist(vector<vector<char>>& board, string word) {
         int l = board.size(), m = board[0].size();
-        vector<vector<bool>> visited(l, vector<bool>(m, false));
 
         for (int i = 0; i < l; i++) {
             for (int j = 0; j < m; j++) {
                 if (board[i][j] == word[0]) {
-                    visited[i][j] = true;
-                    if (solve(board, word, visited, 1, i, j, l, m)) return true;
-                    visited[i][j] = false;
+                    board[i][j] = '#';
+                    if (solve(board, word, 1, i, j, l, m))
+                        return true;
+                    board[i][j] = word[0];
                 }
             }
         }
