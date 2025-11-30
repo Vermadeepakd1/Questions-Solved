@@ -1,67 +1,40 @@
 class Solution {
-    bool isSafe(int row, int col, vector<string>&board, int n){
-        int drow = row;
-        int dcol = col;
 
-        while(row >=0 && col >=0){
-            if(board[row][col] == 'Q') return false;
-            row--;
-            col--;
-        }
-
-        row = drow;
-        col = dcol;
-
-        while(row < n && col >=0){
-            if(board[row][col] == 'Q') return false;
-            row++;
-            col--;
-        }
-
-        row = drow;
-        col = dcol;
-
-        while(row>=0){
-            if(board[row][col] == 'Q') return false;
-            row--;
-        }
-
-        row = drow;
-        col = dcol;
-
-        while(col>=0){
-            if(board[row][col] == 'Q') return false;
-            col--;
-        }
-
-        return true;
-    }
-
-    void solve(int col, vector<string> &board, vector<vector<string>> &ans, int n){
-        if(col == n){
+    void solve(vector<string>& board, vector<vector<string>>& ans,
+               vector<bool>& cols, vector<bool>& dg1, vector<bool>& dg2,
+               int crow, int n) {
+        if (crow == n) {
             ans.push_back(board);
             return;
         }
 
-        for(int row = 0; row<n; row++){
-            if(isSafe(row,col,board,n)){
-                board[row][col] = 'Q';
-                solve(col+1, board, ans, n);
-                board[row][col] = '.';
+        for (int i = 0; i < n; i++) {
+            if (!cols[i] && !dg1[crow + i] && !dg2[crow - i + n - 1]) {
+                board[crow][i] = 'Q';
+
+                cols[i] = true;
+                dg1[crow + i] = true;
+                dg2[crow - i + n - 1] = true;
+
+                solve(board, ans, cols, dg1, dg2, crow + 1, n);
+
+                cols[i] = false;
+                dg1[crow + i] = false;
+                dg2[crow - i + n - 1] = false;
+
+                board[crow][i] = '.';
             }
         }
     }
+
 public:
     vector<vector<string>> solveNQueens(int n) {
+        vector<bool> cols(n, false), dg1(2 * n, false), dg2(2 * n, false);
+        vector<string> board(n, string(n, '.'));
         vector<vector<string>> ans;
-        vector<string> board(n);
-        string s(n , '.');
 
-        for(int i =0; i<n; i++){
-            board[i] = s;
-        }
+        solve(board, ans, cols, dg1, dg2, 0, n);
 
-        solve(0,board,ans,n);
         return ans;
     }
 };
