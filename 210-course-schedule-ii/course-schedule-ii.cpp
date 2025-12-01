@@ -1,46 +1,53 @@
 class Solution {
+    bool cycle = false;
+
+    void dfs(unordered_map<int,vector<int>> &adj, int idx,vector<bool> &visited, vector<bool> &inrecursion, stack<int>&st){
+        visited[idx] = true;
+        inrecursion[idx] = true;
+
+        for(int nbr : adj[idx]){
+            if(inrecursion[nbr]){
+                cycle =true;
+                return;
+            }
+            if(!visited[nbr])
+            dfs(adj,nbr, visited,inrecursion,st);
+        }
+
+        inrecursion[idx] = false;
+        st.push(idx);
+    }
 public:
     vector<int> findOrder(int numCourses, vector<vector<int>>& prerequisites) {
         unordered_map<int,vector<int>> adj;
         int n = numCourses;
 
-        vector<int> indegree(n,0);
+        vector<bool> inrecursion(n,false), visited(n,false);
 
-        for(auto i :prerequisites ){
+        for(auto &i : prerequisites){
             int u = i[1];
             int v = i[0];
-
             adj[u].push_back(v);
-            indegree[v]++;
+
         }
 
-        vector<int> result;
-        int cnt = 0;
-        queue<int> q;
+        stack<int> st;
 
         for(int i = 0; i<n; i++){
-            if(indegree[i] == 0){
-                q.push(i);
-                result.push_back(i);
-                cnt++;
-
+            if(!visited[i] ){
+                dfs(adj,i,visited,inrecursion,st);
             }
         }
 
-        while(!q.empty()){
-            int t =q.front();
-            q.pop();
-            for(int i : adj[t]){
-                indegree[i]--;
-                if(indegree[i] == 0){
-                    q.push(i);
-                    result.push_back(i);
-                    cnt++;
-                }
-            }
+        if(cycle)return {};
+
+        vector<int> result;
+
+        while(!st.empty()){
+            result.push_back(st.top());
+            st.pop();
         }
 
-        if(cnt == n)return result;
-        return {};
+        return result;
     }
 };
