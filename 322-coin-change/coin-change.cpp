@@ -1,31 +1,17 @@
 class Solution {
-    int t[10001][13];
-    int findcoins(vector<int>& coins, int amount, int idx) {
-        if (idx == coins.size()) {
-            if (amount == 0)
-                return 0;
-            else
-                return INT_MAX / 2;
-        }
-
-        if(t[amount][idx] != -1)return t[amount][idx];
-        int take = INT_MAX, skip = INT_MAX;
-        // take
-        if (coins[idx] <= amount) {
-            take = 1 + findcoins(coins, amount - coins[idx], idx);
-        }
-        // skip
-        skip = findcoins(coins, amount, idx + 1);
-
-        return t[amount][idx] = min(take, skip);
-    }
-
 public:
     int coinChange(vector<int>& coins, int amount) {
-        memset(t,-1,sizeof(t));
-        int ans = findcoins(coins, amount, 0);
-        if(ans >= INT_MAX/2)return -1;
-
-        return ans;
+        int n = coins.size();
+        vector<int> dp(amount + 1, INT_MAX);
+        dp[0] = 0;
+        for (int i = 1; i <= amount; i++) {
+            for (int j = 0; j < n; j++) {
+                int val = coins[j];
+                if (val <= i && dp[i - val] != INT_MAX) {
+                    dp[i] = min(1 + dp[i - val], dp[i]);
+                }
+            }
+        }
+        return (dp[amount] == INT_MAX) ? -1 : dp[amount];
     }
 };
