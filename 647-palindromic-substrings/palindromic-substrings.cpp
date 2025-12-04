@@ -1,14 +1,17 @@
 class Solution {
+    int t[1001][1001];
     bool check(string& s, int i, int j) {
         if (i > j)
             return true;
+        if(t[i][j] != -1)return t[i][j];
         if (s[i] == s[j])
             return check(s, i + 1, j - 1);
-        return false;
+        return t[i][j] =false;
     }
 
 public:
     int countSubstrings(string s) {
+        memset(t,-1,sizeof(t));
         int n = s.length();
         int cnt = 0;
         for (int i = 0; i < n; i++) {
