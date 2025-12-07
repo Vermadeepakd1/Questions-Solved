@@ -20,6 +20,7 @@ public:
             int d = top.first;
             int node = top.second;
             pq.pop();
+            if (d > dist[node]) continue;
 
             for (auto i : adj[node]) {
                 int v = i.first;
