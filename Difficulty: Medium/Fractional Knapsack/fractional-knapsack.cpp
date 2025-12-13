@@ -1,36 +1,31 @@
-// class implemented
-/*
-struct Item{
-    int value;
-    int weight;
-};
-*/
-
 class Solution {
   public:
     double fractionalKnapsack(vector<int>& val, vector<int>& wt, int capacity) {
         // code here
-        double profit = 0;
         int n = val.size();
-        vector<int> indices(val.size());
+        vector<pair<int,int>> p(n);
+        
         for(int i = 0; i<n; i++){
-            indices[i] = i;
+            p[i]= {val[i],wt[i]};
         }
         
-        sort(indices.begin(), indices.end(), 
-              [&](int i1, int i2) {
-                return static_cast<double>(val[i1]) / wt[i1] > static_cast<double>(val[i2]) / wt[i2];
-              });
-              
-        for(int i : indices){
-            if(wt[i] <= capacity){
-                profit+= (double)val[i];
-                capacity -= wt[i];
+        auto lambda = [](pair<int,int>&p1, pair<int,int>&p2){
+            return (1.0*p1.first)/p1.second > (1.0*p2.first)/p2.second;
+        };
+        
+        sort(p.begin(),p.end(), lambda);
+        
+        double result = 0.0;
+        
+        for(int i = 0; i<n; i++){
+            if(p[i].second <= capacity){
+                result += p[i].first;
+                capacity -= p[i].second;
             }else{
-                profit += (double)val[i]*capacity/wt[i];
+                result += ( (1.0*capacity)/p[i].second)*p[i].first;
                 break;
             }
         }
-        return profit*1000000.0/1000000.0;
+        return result;
     }
 };
