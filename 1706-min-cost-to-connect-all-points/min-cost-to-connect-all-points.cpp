@@ -44,7 +44,7 @@ public:
              [&](vector<int>& a, vector<int>& b) { return a[2] < b[2]; });
 
         int ans = 0;
-        for(auto vec : edges){
+        for(auto &vec : edges){
             int u = vec[0], v = vec[1], w = vec[2];
 
             if(find(u) == find(v))continue;
