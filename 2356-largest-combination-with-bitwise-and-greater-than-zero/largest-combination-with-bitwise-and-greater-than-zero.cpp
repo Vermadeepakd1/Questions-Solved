@@ -1,9 +1,9 @@
 class Solution {
 public:
     int largestCombination(vector<int>& candidates) {
-        vector<int> cnt(32,0);
+        vector<int> cnt(24,0);
 
-        for(int i = 0; i<32; i++){
+        for(int i = 0; i<24; i++){
             int mask = (1<<i);
 
             for(int j = 0; j<candidates.size(); j++){
