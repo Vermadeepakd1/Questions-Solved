@@ -1,4 +1,5 @@
 class Solution {
+    // can also be done with 2ptr approach
 public:
     int minRemoval(vector<int>& nums, int k) {
         sort(nums.begin(), nums.end());
