@@ -10,39 +10,30 @@
  * };
  */
 class Solution {
-    void inorder(TreeNode* root, vector<int> &arr){
-    if(root == NULL){
-        return;
+    void inorder(TreeNode *root, vector<int>&arr){
+        if(root == NULL)return;
+
+        inorder(root->left,arr);
+        arr.push_back(root->val);
+        inorder(root->right,arr);
     }
 
-    inorder(root->left, arr);
-    arr.push_back(root->val);
-    inorder(root->right,arr);
-}
-
-TreeNode* balanced(vector<int> &arr,int start ,int end){
-    if(start > end){
-        return NULL;
+    TreeNode* createBalanced(vector<int> &arr, int s, int e){
+        if(s>e){
+            return NULL;
+        }
+        int mid = s+(e-s)/2;
+        TreeNode *root = new TreeNode(arr[mid]);
+        root->left = createBalanced(arr,s,mid-1);
+        root->right = createBalanced(arr,mid+1,e);
+        return root;
     }
-    if(start == end){
-        return new TreeNode(arr[start]);
-    }
-    int mid = start + (end-start)/2;
-
-    TreeNode *root = new TreeNode(arr[mid]);
-    root ->left = balanced(arr,start,mid-1);
-    root->right = balanced(arr,mid+1,end);
-
-    return root;
-}
 public:
     TreeNode* balanceBST(TreeNode* root) {
         vector<int> arr;
-    inorder(root,arr);
-
-    int size = arr.size();
-
-    TreeNode *result = balanced(arr, 0 ,size-1);
-    return result;
+        inorder(root,arr);
+        int n = arr.size();
+        TreeNode *result = createBalanced(arr,0,n-1);
+        return result;
     }
 };
