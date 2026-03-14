@@ -1,35 +1,25 @@
 class Solution {
-public:
-    void getstore(vector<string>& store, int n, int idx, string curr) {
-        if (idx == n) {
-            store.push_back(curr);
+    void generate(vector<string> &coll, int n, int idx, string curr){
+        if(curr.size() == n){
+            coll.push_back(curr);
             return;
         }
-        int l = curr.size();
-        if (l == 0 || curr[l - 1] != 'a') {
-            curr.push_back('a');
-            getstore(store, n, idx + 1, curr);
-            curr.pop_back();
-        }
-        if (l == 0 || curr[l - 1] != 'b') {
-            curr.push_back('b');
-            getstore(store, n, idx + 1, curr);
-            curr.pop_back();
-        }
-        if (l == 0 || curr[l - 1] != 'c') {
-            curr.push_back('c');
-            getstore(store, n, idx + 1, curr);
-            curr.pop_back();
+
+        for(char ch = 'a' ; ch <= 'c'; ch++){
+            if(idx == 0 || ch != curr[idx-1]) {
+                curr += ch;
+                generate(coll,n,idx+1,curr);
+                curr.pop_back();
+            }
         }
     }
+public:
     string getHappyString(int n, int k) {
-        vector<string> store;
+        vector<string> coll;
         string curr = "";
-        getstore(store, n, 0, curr);
-        sort(store.begin(), store.end());
-        if (store.size() >= k) {
-            return store[k - 1];
-        }
+        generate(coll,n,0,curr);
+        sort(coll.begin(),coll.end());
+        if(coll.size() >= k)return coll[k-1];
         return "";
     }
 };
