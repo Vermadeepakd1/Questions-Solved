@@ -15,15 +15,12 @@ public:
         }
         int cnt = 0;
         for (int i = 0; i < n; i++) {
-            int ceven = evensum, codd = oddsum;
             int preveven = 0, prevodd = 0;
 
             if (i & 1) {
-                codd -= nums[i];
                 prevodd = oddsum - nums[i] - oddsuffix[i];
                 preveven = evensum - evensuffix[i];
             } else {
-                ceven -= nums[i];
                 prevodd = oddsum  - oddsuffix[i];
                 preveven = evensum - nums[i] - evensuffix[i];
             }
