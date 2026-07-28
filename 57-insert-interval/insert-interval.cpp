@@ -2,33 +2,24 @@ class Solution {
 public:
     vector<vector<int>> insert(vector<vector<int>>& intervals,
                                vector<int>& newInterval) {
+        int start = newInterval[0], end = newInterval[1];
+
         vector<vector<int>> result;
-
-        int news = newInterval[0], newe = newInterval[1];
-        bool placed = false;
-
-        for (auto i : intervals) {
-            int s = i[0];
-            int e = i[1];
-
-            if (e < news) {
-                result.push_back({s, e});
-            } else if (s > newe) {
-                if (!placed) {
-                    placed = true;
-                    result.push_back({news, newe});
-                }
-                result.push_back({s, e});
-
-            } else {
-                news = min(s, news);
-                newe = max(e, newe);
+        bool inserted = false;
+        for (auto& v : intervals) {
+            int s = v[0], e = v[1];
+            if (!inserted && end < s) {
+                result.push_back({start, end});
+                inserted = true;
+            }
+            if (e < start || s> end)
+                result.push_back(v);
+            else if ((start >= s && start <= e) || (end >= s && end <= e)) {
+                start = min(start, s);
+                end = max(end, e);
             }
         }
-        if (!placed) {
-            placed = true;
-            result.push_back({news, newe});
-        }
+        if(!inserted)result.push_back({start,end});
         return result;
     }
 };
