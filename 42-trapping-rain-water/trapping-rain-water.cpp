@@ -1,19 +1,24 @@
 class Solution {
+    //using two pointers
 public:
     int trap(vector<int>& height) {
-        int  n= height.size();
-        vector<int> post(n);;
-        int premaxi = 0, postmaxi = 0;
-        for(int i = 0; i<n; i++){
-            postmaxi = max(postmaxi,height[n-i-1]);
-            post[n-i-1] = postmaxi;
-        }
+        int n = height.size();
+        int leftmax = height[0], rightmax = height[n-1];
+        int i = 0, j = n-1;
+        int area = 0;
 
-        int result = 0;
-        for(int i = 0; i<n; i++){
-            premaxi = max(premaxi,height[i]);
-            result += min(premaxi,post[i]) - height[i];
+        while(i < j){
+            leftmax = max(leftmax, height[i]);
+            rightmax = max(rightmax,height[j]);
+
+            if(leftmax < rightmax){
+                area += leftmax - height[i];
+                i++;
+            }else {
+                area += rightmax - height[j];
+                j--;
+            }
         }
-        return result;
+        return area;
     }
 };
