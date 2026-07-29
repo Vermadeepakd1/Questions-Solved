@@ -13,17 +13,18 @@
 class Solution {
     int ans = -1;
     void findk(TreeNode* root, int k, int& curr) {
-        if (root == NULL )
+        if (root == NULL)
             return;
-        if (root->left)
-            findk(root->left, k, curr);
+        findk(root->left, k, curr);
+        if (ans != -1)
+            return;
         if (curr == k) {
             ans = root->val;
             cout << root->val << endl;
+            return;
         }
         curr++;
-        if (root->right)
-            findk(root->right, k, curr);
+        findk(root->right, k, curr);
     }
 
 public:
