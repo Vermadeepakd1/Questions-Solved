@@ -1,42 +1,67 @@
 class Solution {
-    vector<int> h = {-1,0,1,0};
-    vector<int> v = {0,-1,0,1};
-    void dfs(vector<vector<char>>& board, int i, int j){
-        if(i <0 || i >= board.size() || j <0 || j >= board[0].size() || board[i][j] != 'O' )return;
+    int dir[5] = {-1, 0, 1, 0, -1};
+    
+    bool check(vector<vector<char>>& board, int x ,int y, vector<vector<bool>>&visited){
+        queue<pair<int,int>>q;
+        q.push({x,y});
+        visited[x][y] = true;
+        int m = board.size(), n = board[0].size();
+        
+        bool isSurrounded = true; 
 
-        board[i][j] = 'S';
+        while(!q.empty()){
+            auto [ox,oy] = q.front();
+            q.pop();
+            
+            if(ox == 0 || oy == 0 || ox == m-1 || oy == n-1) {
+                isSurrounded = false; 
+            }
+            
+            for(int i = 0; i < 4; i++){
+                int nx = ox + dir[i];
+                int ny = oy + dir[i+1];
 
-        for(int l = 0; l < 4; l++){
-            int ni = i+h[l];
-            int nj = j+ v[l];
+                if(nx >= 0 && nx < m && ny >= 0 && ny < n && !visited[nx][ny] && board[nx][ny] == 'O'){
+                    q.push({nx,ny});
+                    visited[nx][ny] = true;
+                }
+            }
+        }
+        return isSurrounded;
+    }
+    
+    void capture(vector<vector<char>>& board, int i , int j){
+        queue<pair<int,int>>q;
+        q.push({i,j});
+        int m = board.size(), n = board[0].size();
+        board[i][j] = 'X';
 
-            dfs(board,ni,nj);
+        while(!q.empty()){
+            auto [ox,oy] = q.front();
+            q.pop();
+            
+            for(int i = 0; i < 4; i++){
+                int nx = ox + dir[i];
+                int ny = oy + dir[i+1];
+
+                if(nx >= 0 && nx < m && ny >= 0 && ny < n && board[nx][ny] == 'O'){
+                    q.push({nx,ny});
+                    board[nx][ny] = 'X';
+                }
+            }
         }
     }
+    
 public:
     void solve(vector<vector<char>>& board) {
-        int n = board.size();
-        int m = board[0].size();
+        int m = board.size(), n = board[0].size();
+        vector<vector<bool>> visited(m, vector<bool>(n, false));
 
-        for(int i = 0;i <n;i++){
-            if(board[i][0] == 'O'){
-                dfs(board,i,0);
-            }
-            if(board[i][m-1] == 'O')dfs(board,i,m-1);
-        }
-
-        for(int i = 0; i<m; i++){
-            if(board[0][i] == 'O')dfs(board,0,i);
-            if(board[n-1][i] == 'O')dfs(board,n-1,i);
-        }
-
-
-        for(int i = 0; i<n; i++){
-            for(int j = 0; j<m; j++){
-                if(board[i][j] == 'S'){
-                    board[i][j] = 'O';
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(board[i][j] == 'O' && !visited[i][j] && check(board, i, j, visited)){
+                    capture(board, i, j);
                 }
-                else if(board[i][j] == 'O')board[i][j] = 'X';
             }
         }
     }
