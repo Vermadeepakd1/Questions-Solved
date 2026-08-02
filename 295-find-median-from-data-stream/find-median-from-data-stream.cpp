@@ -3,8 +3,7 @@ public:
     priority_queue<int> maxheap;
     priority_queue<int,vector<int>,greater<int>> minheap;
 
-    MedianFinder() {
-        
+    MedianFinder() {    
     }
     
     void addNum(int num) {
@@ -12,17 +11,15 @@ public:
         minheap.push(maxheap.top());
         maxheap.pop();
 
-        if(minheap.size() > maxheap.size()){
+        while(minheap.size() > maxheap.size()){
             maxheap.push(minheap.top());
             minheap.pop();
         }
     }
     
     double findMedian() {
-        if(maxheap.size() > minheap.size()){
-            return maxheap.top();
-        }
-        return (double)(maxheap.top() + minheap.top())/2;
+        if(maxheap.size() > minheap.size())return maxheap.top();
+        else return (double)(minheap.top()+maxheap.top() )/ 2;
     }
 };
 
