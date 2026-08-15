@@ -1,9 +1,9 @@
 class Solution {
 public:
     int longestSubsequence(vector<int>& nums) {
-        sort(nums.begin(),nums.end());
+        int maxi = *max_element(nums.begin(),nums.end());
         int n = nums.size();
-        if(nums[n-1]==0)return 0;
+        if(maxi==0)return 0;
         int x = 0;
         for(int i : nums)x^=i;
 
