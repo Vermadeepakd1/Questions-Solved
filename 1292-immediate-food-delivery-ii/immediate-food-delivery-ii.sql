@@ -1,2 +1,13 @@
 # Write your MySQL query statement below
-select (ROUND (sum(CASE WHEN order_date=customer_pref_delivery_date THEN 1 ELSE 0 END) / count(*) , 4) * 100) as immediate_percentage from Delivery where (customer_id, order_date) in (select customer_id, min(order_date) from Delivery group by customer_id);
+with rankedorders as
+(
+    select order_date, customer_pref_delivery_date ,
+    row_number() over(
+        partition by customer_id
+        order by order_date asc
+    ) as rnk
+    from Delivery
+)
+select ROUND(AVG(order_date = customer_pref_delivery_date) * 100, 2) AS immediate_percentage
+FROM RankedOrders
+WHERE rnk = 1;
