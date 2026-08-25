@@ -1,4 +1,6 @@
 class Solution {
+    // t.c - O(NlogN)
+    // s.c - O(N)
 public:
     int missingMultiple(vector<int>& nums, int k) {
         set<int> st(nums.begin(),nums.end());
