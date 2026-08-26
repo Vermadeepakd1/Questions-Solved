@@ -1,4 +1,6 @@
 class Solution {
+    //tc - O(m*n)
+    //sc - O(m*n)
 public:
     vector<vector<int>> dir = {{-1,-1},{-1,0},{-1,1},{0,1},{1,1},{1,0},{1,-1},{0,-1}};
     void gameOfLife(vector<vector<int>>& board) {
