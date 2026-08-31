@@ -1,50 +1,28 @@
 class Solution {
 public:
     string simplifyPath(string path) {
-        stack<string> st;
-        string curr = "";
+        vector<string> st; 
+        stringstream ss(path);
+        string token;
 
-        for (char ch : path) {
-            if (ch != '/') {
-                curr += ch;
-            } else {
-                if (curr.size() > 0) {
-                    if (curr == "..") {
-                        if (!st.empty())
-                            st.pop();
-                    } else if (curr == ".") {
-                        curr = "";
-                    } else {
-                        st.push(curr);
-                    }
+        while (getline(ss, token, '/')) {
+            if (token == "" || token == ".") {
+                continue; 
+            }
+            if (token == "..") {
+                if (!st.empty()) {
+                    st.pop_back(); 
                 }
-                curr = "";
-            }
-        }
-        if (curr.size() > 0) {
-            if (curr == "..") {
-                if (!st.empty())
-                    st.pop();
-            } else if (curr == ".") {
-                curr = "";
             } else {
-                st.push(curr);
+                st.push_back(token); 
             }
         }
-        curr = "";
+
         string result = "";
-        stack<string> st2;
-        while (!st.empty()) {
-            string t = st.top();
-            st.pop();
-            st2.push(t);
-            st2.push("/");
+        for (const string& dir : st) {
+            result += "/" + dir;
         }
-        while (!st2.empty()) {
-            result += st2.top();
-            st2.pop();
-        }
-        if(result == "")result = "/";
-        return result;
+
+        return result.empty() ? "/" : result;
     }
 };
