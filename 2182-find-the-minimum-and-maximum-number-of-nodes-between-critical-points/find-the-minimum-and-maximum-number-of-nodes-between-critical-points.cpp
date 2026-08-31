@@ -11,32 +11,38 @@
 class Solution {
 public:
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
-        if(head->next->next == NULL)return {-1,-1};
-        ListNode *prev = head;
-        ListNode * curr = head->next;
+        if (head->next->next == NULL)
+            return {-1, -1};
+        ListNode* prev = head;
+        ListNode* curr = head->next;
         int idx = 1;
 
-        vector<int> store;
-
-        while(curr->next != NULL){
+        int mini = INT_MAX;
+        int firstp = -1, lastp = -1, prevp = -1, currp = -1;
+        while (curr->next != NULL) {
             int cval = curr->val, pval = prev->val, nval = curr->next->val;
 
-            if(((cval > pval) == (cval > nval)) && cval != pval && cval != nval) store.push_back(idx);
+            if ((cval > pval && cval > nval) || (cval < pval && cval < nval)) {
+                if (firstp == -1)
+                    firstp = idx;
+                prevp = currp;
+                currp = idx;
+                lastp = idx;
+
+                if (prevp != currp && prevp !=-1) {
+                    mini = min(mini, currp - prevp);
+                }
+            }
 
             idx++;
             prev = curr;
             curr = curr->next;
-
         }
 
-        for(int i : store)cout << i << " ";
+        if (firstp == lastp)
+            return {-1, -1};
+        int maxi = lastp - firstp;
 
-        if(store.size() <=1 )return {-1,-1};
-        int maxi = store[store.size()-1]-store[0];
-        int mini = INT_MAX;
-        for(int i = 0;i<store.size()-1; i++){
-            mini = min(mini, store[i+1]-store[i]);
-        }
         return {mini, maxi};
     }
 };
