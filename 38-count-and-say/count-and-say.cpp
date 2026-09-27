@@ -20,7 +20,12 @@ public:
         return ans;
     }
     string countAndSay(int n) {
-        if(n==1)return "1";
-        return rle(countAndSay(n-1));
+        vector<string>result(n+1);
+        result[1] = "1";
+
+        for(int i = 2; i<=n; i++){
+            result[i] = rle(result[i-1]);
+        }
+        return result[n];
     }
 };
