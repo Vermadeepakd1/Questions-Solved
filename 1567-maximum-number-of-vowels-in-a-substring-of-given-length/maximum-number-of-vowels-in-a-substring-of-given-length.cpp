@@ -1,7 +1,6 @@
 class Solution {
 public:
-    string vowels = "aeiou";
-    bool isvowel(char ch) { return vowels.contains(ch); }
+    bool isvowel(char lower) { return (lower == 'a' || lower == 'e' || lower == 'i' || lower == 'o' || lower == 'u'); }
     int maxVowels(string s, int k) {
         int cnt = 0, maxcnt = 0;
         int n = s.length();
