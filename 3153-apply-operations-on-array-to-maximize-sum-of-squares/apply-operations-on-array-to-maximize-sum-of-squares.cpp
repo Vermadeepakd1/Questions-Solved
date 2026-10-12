@@ -1,4 +1,5 @@
 class Solution {
+    // bitwise
 public:
     int mod = 1e9+7;
     int maxSum(vector<int>& nums, int k) {
